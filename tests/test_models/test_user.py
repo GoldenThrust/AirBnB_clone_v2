@@ -1,23 +1,34 @@
 #!/usr/bin/python3
-import unittest
+""" """
+from tests.test_models.test_base_model import test_basemodel
 from models.user import User
-""" Unitest for User class """
-
-models = User()
 
 
-class test_user(unittest.TestCase):
-    """ test cases """
+class test_User(test_basemodel):
+    """ """
 
-    def setUp(self):
-        pass
+    def __init__(self, *args, **kwargs):
+        """ """
+        super().__init__(*args, **kwargs)
+        self.name = "User"
+        self.value = User
 
-    def tearDown(self):
-        pass
+    def test_first_name(self):
+        """ """
+        new = self.value()
+        self.assertEqual(type(new.first_name), str)
 
-    def test_init(self):
-        pass
+    def test_last_name(self):
+        """ """
+        new = self.value()
+        self.assertEqual(type(new.last_name), str)
 
+    def test_email(self):
+        """ """
+        new = self.value()
+        self.assertEqual(type(new.email), str)
 
-if __name__ == "__main__":
-    unittest.main()
+    def test_password(self):
+        """ """
+        new = self.value()
+        self.assertEqual(type(new.password), str)

@@ -1,23 +1,24 @@
 #!/usr/bin/python3
-import unittest
+""" """
+from tests.test_models.test_base_model import test_basemodel
 from models.city import City
-""" Unitest for City class """
-
-models = City()
 
 
-class test_city(unittest.TestCase):
-    """ test cases """
+class test_City(test_basemodel):
+    """ """
 
-    def setUp(self):
-        pass
+    def __init__(self, *args, **kwargs):
+        """ """
+        super().__init__(*args, **kwargs)
+        self.name = "City"
+        self.value = City
 
-    def tearDown(self):
-        pass
+    def test_state_id(self):
+        """ """
+        new = self.value()
+        self.assertEqual(type(new.state_id), str)
 
-    def test_init(self):
-        pass
-
-
-if __name__ == "__main__":
-    unittest.main()
+    def test_name(self):
+        """ """
+        new = self.value()
+        self.assertEqual(type(new.name), str)

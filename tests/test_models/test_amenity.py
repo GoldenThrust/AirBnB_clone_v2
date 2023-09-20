@@ -1,25 +1,19 @@
 #!/usr/bin/python3
-import unittest
-""" Unitest for Amenity class """
-
+""" """
+from tests.test_models.test_base_model import test_basemodel
 from models.amenity import Amenity
-models = Amenity()
 
 
-class test_amenity(unittest.TestCase):
-    """ test cases """
+class test_Amenity(test_basemodel):
+    """ """
 
-    def setUp(self):
-        pass
+    def __init__(self, *args, **kwargs):
+        """ """
+        super().__init__(*args, **kwargs)
+        self.name = "Amenity"
+        self.value = Amenity
 
-    def tearDown(self):
-        pass
-
-    def test_init(self):
-        models.name = "Adeniji"
-        self.assertIsNotNone(models.id)
-        self.assertTrue(models.name)
-
-
-if __name__ == "__main__":
-    unittest.main()
+    def test_name2(self):
+        """ """
+        new = self.value()
+        self.assertEqual(type(new.name), str)
