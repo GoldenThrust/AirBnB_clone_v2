@@ -5,6 +5,7 @@ import unittest
 import os
 from unittest.mock import patch
 from io import StringIO
+import models
 from models.user import User
 from models.city import City
 from models.state import State
@@ -26,16 +27,6 @@ class test_console(unittest.TestCase):
             os.remove("file.json")
         except IOError:
             pass
-
-    def test_create(self):
-        with patch('sys.stdout', new=StringIO()) as f:
-            HBNBCommand().onecmd("create User")
-            self.assertTrue(True)
-
-    def test_all(self):
-        with patch('sys.stdout', new=StringIO()) as f:
-            HBNBCommand().onecmd("create User")
-            self.assertTrue(True)
 
 if __name__ == "__main__":
     unittest.main()
