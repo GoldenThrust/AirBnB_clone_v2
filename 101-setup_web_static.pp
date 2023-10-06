@@ -20,20 +20,29 @@ file { '/data/web_static/shared':
   recurse => true,
 }
 
+
 file { '/data/web_static/releases/test/index.html':
   ensure  => 'file',
   owner   => 'ubuntu',
   group   => 'ubuntu',
-  content => template('module_name/index.html.erb'), # Use an ERB template for the HTML content
+  content => '<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- ... (your HTML content here) ... -->
+</head>
+<body>
+    <h1>Hello World</h1>
+    <a href="https://bio.link/olajide">Adeniji Olajide</a>
+</body>
+</html>',
   mode    => '0644',
 }
-
 file { '/data/web_static/current':
-  ensure  => 'link',
-  target  => '/data/web_static/releases/test',
-  owner   => 'ubuntu',
-  group   => 'ubuntu',
-  mode    => '0755',
+  ensure => 'link',
+  target => '/data/web_static/releases/test',
+  owner  => 'ubuntu',
+  group  => 'ubuntu',
+  mode   => '0755',
 }
 
 exec { 'alias':
