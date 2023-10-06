@@ -89,3 +89,5 @@ if ! grep -q "$n_alias" "$nginx"; then
 fi
 
 sudo service nginx restart
+
+exit 0
