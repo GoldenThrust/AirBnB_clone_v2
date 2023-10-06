@@ -7,16 +7,21 @@ from fabric.api import local, run, put, env
 env.hosts = ['54.157.184.108', '52.3.248.81']
 env.user = "ubuntu"
 
-def do_pack():
-        """ generates a .tgz archive from the contents of the web_static folder  """
-        file_path = "versions/web_static_{}.tgz".format(time.strftime("%Y%m%d%H%M%S"))
-        local("mkdir -p versions")
-        arch = local("tar -cvzf {} web_static/".format(file_path))
 
-        if arch.succeeded:
-                return file_path
-        else:
-                return None  
+def do_pack():
+    """
+    generates a .tgz archive from
+    the contents of the web_static folder
+    """
+   
+    file_path = "versions/web_static_{}.tgz".format(time.strftime("%Y%m%d%H%M%S"))
+    local("mkdir -p versions")
+    arch = local("tar -cvzf {} web_static/".format(file_path))
+
+    if arch.succeeded:
+        return file_path
+    else:
+        return None  
 
 def do_deploy(archive_path):
     """ distributes an archive to web servers """
