@@ -46,7 +46,9 @@ file { '/data/web_static/current':
 }
 
 exec { 'alias':
-  command => 'sudo sed -i "/location \/ {/alocation /hbnb_static/ {\n    alias /data/web_static/current/;\n}" /etc/nginx/sites-enabled/default',
+  command => 'sudo sed -i "/location \/ {/a\
+location /hbnb_static/ {\n\
+    alias /data/web_static/current/;\n}" /etc/nginx/sites-enabled/default',
 }
 
 file { '/etc/nginx/sites-enabled/default':
