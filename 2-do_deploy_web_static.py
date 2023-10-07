@@ -18,14 +18,14 @@ def do_deploy(archive_path):
                     arch_filename[:-4])
         put(archive_path, "/tmp/")
 
-        run("sudo mkdir -p {}".format(new_path))
-        run("sudo tar -xzf {} -C {}".format(arch_filename,
+        run("mkdir -p {}".format(new_path))
+        run("tar -xzf {} -C {}".format(arch_filename,
                                             new_path))
 
-        run("sudo rm {}".format(arch_filename))
+        run("rm {}".format(arch_filename))
 
-        run("sudo rm -rf /data/web_static/current")
-        run("sudo ln -s {} /data/web_static/current".format(new_path))
+        run("rm -rf /data/web_static/current")
+        run("ln -s {} /data/web_static/current".format(new_path))
         return True
     except Exception:
         return  False
