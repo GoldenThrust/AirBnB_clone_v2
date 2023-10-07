@@ -76,18 +76,18 @@ echo '<!DOCTYPE html>
 </body>
 </html>' > /data/web_static/releases/test/index.html
 
-sudo ln -sf /data/web_static/releases/test/ /data/web_static/current
+ln -sf /data/web_static/releases/test/ /data/web_static/current
 
-sudo chown -R ubuntu:ubuntu /data/
+chown -R ubuntu:ubuntu /data/
 
 
 nginx="/etc/nginx/sites-enabled/default"
 n_alias="location /hbnb_static/ {\n    alias /data/web_static/current/;\n}"
 
 if ! grep -q "$n_alias" "$nginx"; then
-    sudo sed -i "/location \/ {/a $n_alias" "$nginx"
+    sed -i "/location \/ {/a $n_alias" "$nginx"
 fi
 
-sudo service nginx restart
+service nginx restart
 
 exit 0
