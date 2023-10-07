@@ -1,8 +1,11 @@
 #!/usr/bin/env bash
 # sets up web servers for the deployment of web_static
 
-apt-get -y update
-apt-get -y install nginx
+if ! dpkg -l | grep -q nginx;
+then
+        apt-get -y update
+        apt-get -y install nginx
+fi
 
 mkdir -p /data/web_static/releases/test/
 mkdir -p /data/web_static/shared/
@@ -77,8 +80,12 @@ ln -sf /data/web_static/releases/test/ /data/web_static/current
 
 chown -R ubuntu:ubuntu /data/
 
-sed -i "/location \/ {/a $n_alias" "$nginx"
+
+nginx="/etc/nginx/sites-enabled/default"
+n_alias="location /hbnb_static/ {\n    alias /data/web_static/current/;\n}"
+
+if ! grep -q "$n_alias" "$nginx"; then
+    sed -i "/location \/ {/a $n_alias" "$nginx"
+fi
 
 service nginx restart
-
-exit 0
