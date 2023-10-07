@@ -49,19 +49,19 @@ echo '<!DOCTYPE html>
                 border-color: yellow;
                 text-shadow: 0 0 10px yellow;
             }
-            
+
             40% {
                 color: blue;
                 border-color: blue;
                 text-shadow: 0 0 8px blue;
             }
-            
+
             60% {
                 color: magenta;
                 border-color: magenta;
                 text-shadow: 0 0 3px magenta;
             }
-            
+
             80% {
                 color: cyan;
                 border-color: cyan;
@@ -82,10 +82,10 @@ chown -R ubuntu:ubuntu /data/
 
 
 nginx="/etc/nginx/sites-enabled/default"
-n_alias="location /hbnb_static/ {\n    alias /data/web_static/current/;\n}"
+n_alias="\n\tlocation /hbnb_static/ {\n\t\talias /data/web_static/current/;\n\t}"
 
 if ! grep -q "$n_alias" "$nginx"; then
-    sed -i "/location \/ {/a $n_alias" "$nginx"
+        sed -i "/error_page 404 \\/404.html;/a\\$n_alias" "$nginx"
 fi
 
 service nginx restart
