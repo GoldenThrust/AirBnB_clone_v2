@@ -4,7 +4,6 @@ import os
 from fabric.api import run, put, env
 
 env.hosts = ['54.157.184.108', '52.3.248.81']
-env.user = "ubuntu"
 
 
 def do_deploy(archive_path):
@@ -24,7 +23,7 @@ def do_deploy(archive_path):
 
         run("rm /tmp/{}".format(arch_filename))
 
-        run("mv {}/web_static/* {}/".format(new_path, new_path))
+        run("mv {}/web_static/* {}".format(new_path, new_path))
         run("rm -rf {}/web_static".format(new_path))
 
         run("rm -rf /data/web_static/current")
