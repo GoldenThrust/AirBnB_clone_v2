@@ -7,6 +7,7 @@ from fabric.api import local, run, put, env
 env.hosts = ['54.157.184.108', '52.3.248.81']
 env.user = "ubuntu"
 
+
 def do_deploy(archive_path):
     """ distributes an archive to web servers """
     if not os.path.exists(archive_path):
@@ -33,4 +34,3 @@ def do_deploy(archive_path):
         return True
     except Exception:
         return False
-
