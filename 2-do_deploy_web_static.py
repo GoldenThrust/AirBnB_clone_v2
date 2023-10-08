@@ -19,7 +19,7 @@ def do_deploy(archive_path):
         put(archive_path, "/tmp/")
 
         run("mkdir -p {}".format(new_path))
-        run("tar -xzf {} -C {}".format(arch_filename,
+        run("tar -xzf /tmp/{} -C {}".format(arch_filename,
                                             new_path))
 
         run("rm /tmp/{}".format(arch_filename))
@@ -29,6 +29,7 @@ def do_deploy(archive_path):
 
         run("rm -rf /data/web_static/current")
         run("ln -s {} /data/web_static/current".format(new_path))
+        print("New version deployed!")
         return True
     except Exception:
-        return  False
+        return False

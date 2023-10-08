@@ -10,16 +10,17 @@ env.user = "ubuntu"
 
 def do_pack():
     """
-    generates a .tgz archive from
-    the contents of the web_static folder
+    generates a .tgz archive from the
+    contents of the web_static folder
     """
 
-    path = "versions/web_static_{}.tgz".format(time.strftime("%Y%m%d%H%M%S"))
+    file_path = "versions/web_static_{}.tgz".format(
+            time.strftime("%Y%m%d%H%M%S"))
     local("mkdir -p versions")
-    arch = local("tar -cvzf {} web_static/".format(path))
+    arch = local("tar -cvzf {} web_static/".format(file_path))
 
     if arch.succeeded:
-        return path
+        return file_path
     else:
         return None
 
@@ -29,20 +30,27 @@ def do_deploy(archive_path):
     if not os.path.exists(archive_path):
         return False
 
-    arch_file = archive_path[9:]
-    new_path = arch_file[:-4]
-    put(archive_path, "/tmp/")
+    try:
+        arch_filename = os.path.basename(archive_path)
+        new_path = '/data/web_static/releases/{}'.format(
+                    arch_filename[:-4])
+        put(archive_path, "/tmp/")
 
-    run("sudo mkdir -p {}".format(new_path))
-    run("sudo tar -xzf {} -C {}/".format(arch_file,
-                                         new_path))
-    run("sudo rm {}".format(arch_file))
-    run("sudo mv {}/web_static/* {}".format(new_path,
+        run("mkdir -p {}".format(new_path))
+        run("tar -xzf /tmp/{} -C {}".format(arch_filename,
                                             new_path))
-    run("sudo rm -rf {}/web_static".format(new_path))
-    run("sudo rm -rf /data/web_static/current")
-    run("sudo ln -s {} /data/web_static/current".format(new_path))
-    return True
+
+        run("rm /tmp/{}".format(arch_filename))
+
+        run("mv {}/web_static/* {}/".format(new_path, new_path))
+        run("rm -rf {}/web_static".format(new_path))
+
+        run("rm -rf /data/web_static/current")
+        run("ln -s {} /data/web_static/current".format(new_path))
+        print("New version deployed!")
+        return True
+    except Exception:
+        return False
 
 
 def deploy():
@@ -50,5 +58,5 @@ def deploy():
     try:
         file_path = do_pack()
         return do_deploy(file_path)
-    except:
+    except Exception:
         return False
