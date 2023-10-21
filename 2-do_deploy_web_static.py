@@ -1,52 +1,36 @@
 #!/usr/bin/python3
-"""
-Fabric script that distributes an archive to your web servers
-"""
-
-from datetime import datetime
-from fabric.api import *
+""" Web Server """
 import os
+import time
+from fabric.api import local, run, put, env
 
-env.hosts = ["44.210.150.159", "35.173.47.15"]
+env.hosts = ['54.157.184.108', '52.3.248.81']
 env.user = "ubuntu"
 
 
-def do_pack():
-    """
-        return the archive path if archive has generated correctly.
-    """
-
-    local("mkdir -p versions")
-    date = datetime.now().strftime("%Y%m%d%H%M%S")
-    archived_f_path = "versions/web_static_{}.tgz".format(date)
-    t_gzip_archive = local("tar -cvzf {} web_static".format(archived_f_path))
-
-    if t_gzip_archive.succeeded:
-        return archived_f_path
-    else:
-        return None
-
-
 def do_deploy(archive_path):
-    """
-        Distribute archive.
-    """
-    if os.path.exists(archive_path):
-        archived_file = archive_path[9:]
-        newest_version = "/data/web_static/releases/" + archived_file[:-4]
-        archived_file = "/tmp/" + archived_file
-        put(archive_path, "/tmp/")
-        run("sudo mkdir -p {}".format(newest_version))
-        run("sudo tar -xzf {} -C {}/".format(archived_file,
-                                             newest_version))
-        run("sudo rm {}".format(archived_file))
-        run("sudo mv {}/web_static/* {}".format(newest_version,
-                                                newest_version))
-        run("sudo rm -rf {}/web_static".format(newest_version))
-        run("sudo rm -rf /data/web_static/current")
-        run("sudo ln -s {} /data/web_static/current".format(newest_version))
+    """ distributes an archive to web servers """
+    if not os.path.exists(archive_path):
+        return False
 
+    try:
+        arch_filename = os.path.basename(archive_path)
+        new_path = '/data/web_static/releases/{}/'.format(
+                    arch_filename[:-4])
+        put(archive_path, "/tmp/")
+
+        run("mkdir -p {}".format(new_path))
+        run("tar -xzf /tmp/{} -C {}".format(arch_filename,
+                                            new_path))
+
+        run("rm /tmp/{}".format(arch_filename))
+
+        run("mv {}web_static/* {}/".format(new_path, new_path))
+        run("rm -rf {}web_static".format(new_path))
+
+        run("rm -rf /data/web_static/current")
+        run("ln -s {} /data/web_static/current".format(new_path))
         print("New version deployed!")
         return True
-
-    return False
+    except Exception:
+        return False
