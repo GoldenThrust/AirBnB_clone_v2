@@ -27,7 +27,7 @@ class State(BaseModel, Base):
                 cls = mode.split(".")
 
                 if (cls[0] == 'City'):
-                    city.append(models[mode])
+                    city.append(model[mode])
 
             for cit in city:
                 if cit.state_id == self.id:
