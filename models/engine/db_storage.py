@@ -43,9 +43,9 @@ class DBStorage:
         if cls:
             tmp_cls = cls
             if type(cls) is str:
-                for kcls, vcls in classes:
-                    if cls == kcls:
-                        tmp_cls = vcls
+                if cls == kcls:
+                    tmp_cls = vcls
+
             session_query = self.__session.query(tmp_cls)
             for query in session_query:
                 key = "{}.{}".format(query.__class__.__name__, query.id)
