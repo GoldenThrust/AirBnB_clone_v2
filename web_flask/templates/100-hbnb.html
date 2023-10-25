@@ -28,7 +28,7 @@
                     <li>
                         <ul>
                             {% for city in state.cities | sort(attribute="name") %}
-                            <li>Abuja</li>
+			    <li>{{ city.name }}</li>
                             {% endfor %}
                         </ul>
                     </li>
@@ -54,13 +54,13 @@
                 <div class="price_by_night">${{ place.price_by_night }}</div>
                 <div class="information">
                     <div class="max_guest">
-                        {{ place.max_guest }} guests
+                        {{ place.max_guest }} Guests
                     </div>
                     <div class="number_rooms">
-                        {{ place.number_rooms }} bedrooms
+                        {{ place.number_rooms }} Bedrooms
                     </div>
                     <div class="number_bathromms">
-                        {{ place.number_bathrooms }} bathrooms
+                        {{ place.number_bathrooms }} Bathrooms
                     </div>
                 </div>
                 <div class="user">

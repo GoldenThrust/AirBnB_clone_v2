@@ -15,7 +15,7 @@ def close_session(exception):
 
 
 @app.route("/hbnb", strict_slashes=False)
-def hbnb_filters():
+def hbnb():
     """ display HTML page """
     states = storage.all(State).values()
     amenities = storage.all(Amenity).values()
